@@ -7,6 +7,7 @@
 /*                                                                            */
 /*----------------------------------------------------------------------------*/
 #include "vex.h"
+#include <cmath>
 
 using namespace vex;
 
@@ -57,8 +58,9 @@ double tI = 0.1; // integral gain constant (tune this value for your robot).
 - put simply, the integral “remembers” that the robot has been behind the target for a while, gradually adding more power until the error disappears.
 */
 
+// NEEDS MAJOR TUNING
 double dP = 0.5;
-double dI = 0.3;
+double dI = 0.0;
 double dD = 0.01;
 
 double motorPower = 0; // initialize motor power to 0
@@ -68,6 +70,7 @@ double previousError = 0; // initialize previous error to 0
 double derivative = 0;    // initialize derivative to 0
 double integral = 0;      // initialize integral to 0
 
+// these are for turn PID
 double targetRotation = 90; // initialize target rotation to 0
 double currentRotation = 0; // initialize current rotation to 0
 
@@ -79,17 +82,25 @@ void driveWithPID(double target)
     targetDistance = target;
     while (true)
     {
-        double leftDegrees = leftFront.position(rotationUnits::deg);
-        double rightDegrees = rightFront.position(rotationUnits::deg);
-        double averageDegrees = (leftDegrees + rightDegrees) / 2.0;
+        //0.75 is wrong
+        double gearRatio = 0.75; // motor->wheel ratio: 1 motor rotation = SOMETHING wheel rotations
 
-        currentDistance = (M_PI * 3.25) * averageDegrees / 360.0;
+        double leftDegrees = leftTop.position(rotationUnits::deg);
+        double rightDegrees = rightTop.position(rotationUnits::deg);
+        double currentMotorRotation = (leftDegrees + rightDegrees) / 2.0;
 
         // Use this for troubleshooting. May use brain screen instead and check other values too.
         Controller.Screen.setCursor(1, 1);
-        Controller.Screen.print("Current Rotation: %f", currentRotation);
+        Controller.Screen.print("Current Rotation: %f", currentMotorRotation);
         Controller.Screen.setCursor(2, 1);
         Controller.Screen.print("Error: %f", error);
+
+        // convert motor degrees to wheel degrees
+        double wheelRotation = currentMotorRotation * gearRatio;
+
+        // convert wheel degrees to distance traveled by the robot
+        currentDistance = (M_PI * 3.25) * wheelRotation / 360.0; // 3.25 is the diameter of the wheel, so this formula calculates the distance traveled by the robot based on how much the wheel has rotated.
+        // The formula is circumference * (π * diameter) * (rotation in degrees / 360), which gives us the distance traveled in inches.
 
         // P
         error = targetDistance - currentDistance; // calculate error as the difference between target distance and current distance
@@ -120,12 +131,14 @@ void driveWithPID(double target)
         RightDrive.spin(forward, motorPower, percentUnits::pct);
 
         // uncomment the following lines if necessary to further prevent oscillation around the target
-        // if (fabs(error) <= 0.5) //stop if the error is less than or equal to 0.5 degrees
-        // {
-        //     LeftDrive.stop();
-        //     RightDrive.stop();
-        //     break;
-        // }
+        if (fabs(error) <= 0.1)
+        { // stop condition
+            LeftDrive.stop();
+            RightDrive.stop();
+            integral = 0;      // reset integral
+            previousError = 0; // reset previousError
+            break;
+        }
 
         // allow other tasks to run
         this_thread::sleep_for(loopDelay);
@@ -196,7 +209,7 @@ int main()
 
     while (1)
     {
-        driveWithPID(18); // drive forward 1 meter (39 inches)
-        // break;
+        driveWithPID(18); // drive forward
+        break;            // use break if you want the robot to stop after reaching the target distance. Remove break if you want the robot to keep trying to reach the target distance (in case it gets pushed off course or something).
     }
 }
