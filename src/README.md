@@ -1,3 +1,6 @@
+Read this document to learn the basics of PID control, what is going on in this project, and how to implement it into your own project.
+
+
 // proportional gain constant (tune this value for your robot). Bigger kP = faster gain, Smaller kP= slower gain. If the robot is oscillating around the target distance, try reducing this value. If the robot is not reaching the target distance, try increasing this value.
 /*NOTES ABOUT PROPORTIONAL CONTROL
 - proportional = kP * error (this means the product of the proportional gain constant and the error)
