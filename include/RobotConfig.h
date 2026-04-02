@@ -1,6 +1,7 @@
 // DECLARE YOUR CONTROLLER, BRAIN, MOTORS, SENSORS, AND OTHER DEVICES HERE
 
 #include "vex.h"
+#include <cmath>
 
 extern vex::controller Controller;
 extern vex::brain Brain;

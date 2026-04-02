@@ -1,22 +1,24 @@
 // DEFINE YOUR CONTROLLER, BRAIN, MOTORS, SENSORS, AND OTHER DEVICES HERE
 
 #include "RobotConfig.h"
+using namespace vex;
 
-vex::controller Controller;
-vex::brain Brain;
+controller Controller;
+brain Brain;
 
-vex::motor rightFront = vex::motor(vex::PORT11, vex::gearSetting::ratio18_1, false); 
-vex::motor rightRear = vex::motor(vex::PORT19, vex::gearSetting::ratio18_1, false); 
-vex::motor rightTop = vex::motor(vex::PORT14, vex::gearSetting::ratio18_1, true); 
-vex::motor leftFront = vex::motor(vex::PORT1, vex::gearSetting::ratio18_1, true); 
-vex::motor leftRear = vex::motor(vex::PORT7, vex::gearSetting::ratio18_1, true); 
-vex::motor leftTop = vex::motor(vex::PORT6, vex::gearSetting::ratio18_1, false); 
+motor rightFront = motor(PORT11, gearSetting::ratio18_1, false); 
+motor rightRear = motor(PORT19, gearSetting::ratio18_1, false); 
+motor rightTop = motor(PORT14, gearSetting::ratio18_1, true); 
 
-vex::motor_group RightDrive = vex::motor_group(rightFront, rightRear, rightTop); 
-vex::motor_group LeftDrive = vex::motor_group(leftFront, leftRear, leftTop); 
+motor leftFront = motor(PORT1, gearSetting::ratio18_1, true); 
+motor leftRear = motor(PORT7, gearSetting::ratio18_1, true); 
+motor leftTop = motor(PORT6, gearSetting::ratio18_1, false); 
 
-vex::inertial Inertial = vex::inertial(vex::PORT5);
+motor_group RightDrive = motor_group(rightFront, rightRear, rightTop); 
+motor_group LeftDrive = motor_group(leftFront, leftRear, leftTop); 
 
-vex::smartdrive Drivetrain = vex::smartdrive(RightDrive, LeftDrive, Inertial, 3.25, 3.25, 14.5, vex::distanceUnits::in, (0.75)); 
+inertial Inertial = inertial(PORT5);
+
+smartdrive Drivetrain = smartdrive(RightDrive, LeftDrive, Inertial, 3.25, 3.25, 14.5, vex::distanceUnits::in, (0.75)); 
 // left, right, diameter of wheel, diameter of wheel, distance between wheels, distance units, gear ratio
 
