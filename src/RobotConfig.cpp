@@ -1,6 +1,7 @@
 // DEFINE YOUR CONTROLLER, BRAIN, MOTORS, SENSORS, AND OTHER DEVICES HERE
 
 #include "RobotConfig.h"
+
 using namespace vex;
 
 controller Controller;

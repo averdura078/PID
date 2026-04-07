@@ -1,4 +1,7 @@
+// PID CONSTANTS AND PID FUNCTIONS ARE DEFINED HERE
+
 #include "PID.h"
+
 using namespace vex;
 
 double dP = 0.5;

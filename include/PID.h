@@ -1,3 +1,5 @@
+//PID CONSTANTS AND PID FUNCTIONS ARE DECLARED HERE
+
 #include "RobotConfig.h"
 
 // drive constants

@@ -1,3 +1,5 @@
+// DON'T CHANGE THIS FILE. IT IS AUTOMATICALLY GENERATED.
+
 #include <math.h>
 #include <stdio.h>
 #include <stdlib.h>
