@@ -19,8 +19,9 @@ void driveWithPID(double target)
     double targetDistance = target;
     while (true)
     {
-        // 0.75 is correct
-        double gearRatio = 0.75;
+        // 2.0 is experimental
+        // CALCULATE MATHEMATICALLY AND WRITE INSTRUCTIONS FOR OTHERS TO FIND THEIRS
+        double gearRatio = 2.0;
 
         double leftDegrees = leftTop.position(rotationUnits::deg);
         double rightDegrees = rightTop.position(rotationUnits::deg);
