@@ -17,6 +17,8 @@ int loopDelay = 10; // delay between PID loop iterations (in milliseconds)
 void driveWithPID(double target)
 {
     double targetDistance = target;
+    double previousError = 0;
+    double integral = 0;
     while (true)
     {
         // 2.0 is experimental
@@ -38,11 +40,9 @@ void driveWithPID(double target)
         double error = targetDistance - currentDistance; // calculate error as the difference between target distance and current distance
 
         // D
-        double previousError = error;              // save the current error for the next loop iteration
-        double derivative = error - previousError; // compute derivative as the change in error since the last loop iteration.
+        double derivative = (error - previousError) / (loopDelay / 1000.0); // compute derivative as the change in error over time since the last loop iteration.
 
         // I
-        double integral = 0;                      // initialize integral to 0
         integral += error * (loopDelay / 1000.0); // compute integral as the accumulation of error as time passes (in seconds)
                                                   // clamp integral term to prevent integral windup (when the integral term accumulates too much error and causes the robot to overshoot the target)
         if (integral > 200)
@@ -70,6 +70,8 @@ void driveWithPID(double target)
             break;
         }
 
+        previousError = error; // save the current error for the next loop iteration
+
         // Use this for troubleshooting. May use brain screen instead and check other values too.
         Controller.Screen.setCursor(1, 1);
         Controller.Screen.print("Current Rotation: %f", currentMotorRotation);
@@ -77,13 +79,15 @@ void driveWithPID(double target)
         Controller.Screen.print("Error: %f", error);
 
         // allow other tasks to run
-        this_thread::sleep_for(10);
+        this_thread::sleep_for(loopDelay);
     }
 }
 
 void turnWithPID(double target)
 {
     double targetRotation = target;
+    double previousError = 0;
+    double integral = 0;
     while (true)
     {
         double currentRotation = Drivetrain.rotation(vex::rotationUnits::deg); // measure current drivetrain rotation (uses inertial sensor)
@@ -92,11 +96,9 @@ void turnWithPID(double target)
         double error = targetRotation - currentRotation; // calculate error as the difference between target rotation and current rotation
 
         // D
-        double previousError = error;                                       // save the current error for the next loop iteration
         double derivative = (error - previousError) / (loopDelay / 1000.0); // compute derivative as the change in error over the change in timesince the last loop iteration.
 
         // I
-        double integral = 0;                      // initialize integral to 0
         integral += error * (loopDelay / 1000.0); // compute integral as the accumulation of error as time passes (in seconds)
                                                   // clamp integral term to prevent integral windup (when the integral term accumulates too much error and causes the robot to overshoot the target)
         if (integral > 200)
@@ -124,6 +126,8 @@ void turnWithPID(double target)
             RightDrive.stop();
             break; // break out of the while loop if close enough
         }
+
+        previousError = error; // save the current error for the next loop iteration
 
         // Use this for troubleshooting. May use brain screen instead and check other values too.
         Controller.Screen.setCursor(1, 1);
