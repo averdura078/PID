@@ -4,10 +4,12 @@
 
 using namespace vex;
 
+//drive constants (tune them here)
 double dP = 0.5;
 double dI = 0.01;
 double dD = 0.01;
 
+//turn constants (tune them here)
 double tP = 0.4;
 double tI = 0.1;
 double tD = 0.1;
@@ -21,10 +23,11 @@ void driveWithPID(double target)
     double integral = 0;
     while (true)
     {
-        // 2.0 is experimental
-        // CALCULATE MATHEMATICALLY AND WRITE INSTRUCTIONS FOR OTHERS TO FIND THEIRS
-        double gearRatio = 2.0;
+        double gearRatio = 2.0; // gear ratio of your drivetrain 
+        // if you have a complex compound drivetrain, you may choose to calculate this experimentally through trial and error:
+        // code your robot to drive a distance (ex. 12 inches), measure how far it goes, and adjust this ratio until it is accurate.
 
+        // calculate the average rotation of the left and right motors (in degrees)
         double leftDegrees = leftTop.position(rotationUnits::deg);
         double rightDegrees = rightTop.position(rotationUnits::deg);
         double currentMotorRotation = (leftDegrees + rightDegrees) / 2.0;
@@ -74,7 +77,7 @@ void driveWithPID(double target)
 
         // Use this for troubleshooting. May use brain screen instead and check other values too.
         Controller.Screen.setCursor(1, 1);
-        Controller.Screen.print("Current Rotation: %f", currentMotorRotation);
+        Controller.Screen.print("Current Distance: %f", currentDistance);
         Controller.Screen.setCursor(2, 1);
         Controller.Screen.print("Error: %f", error);
 
