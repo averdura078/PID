@@ -60,15 +60,15 @@ How to Implement
 
 
 
-How to START Tuning Constants
+Step-By-Step Tuning Checklist
 1. Set kI and kD to 0.
 2. Increase kP until the robot slightly oscillates around the target.
 3. Increase kD to dampen the oscillation.
 4. Add a tiny amount of kI to fix steady-state error (if it stops just short of the target).
 
-Constant PERFECTING Tips
+Tips for Troubleshooting / Perfecting Constants
 kP
-Bigger kP = faster gain, Smaller kP= slower gain. 
+Bigger kP = faster gain, Smaller kP = slower gain. 
 If the robot is oscillating around the target distance, try reducing this value. If the robot is not reaching the target distance, try increasing this value.
 
 kD

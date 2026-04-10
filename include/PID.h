@@ -3,16 +3,17 @@
 #include "RobotConfig.h"
 
 // drive constants
-extern double dP;
-extern double dI;
-extern double dD;
+extern double dP; // proportional constant
+extern double dI; // integral constant
+extern double dD; // derivative constant
 
 // turn constants
-extern double tP;
-extern double tI;
-extern double tD;
+extern double tP; // proportional constant
+extern double tI; // integral constant
+extern double tD; // derivative constant
 
 extern int loopDelay; // delay between control loop iterations (in milliseconds)
 
+// PID functions
 void turnWithPID(double target);
 void driveWithPID(double target);

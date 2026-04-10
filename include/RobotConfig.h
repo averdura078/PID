@@ -17,6 +17,6 @@ extern vex::motor leftTop;
 extern vex::motor_group RightDrive;
 extern vex::motor_group LeftDrive;
 
-extern vex::inertial Inertial;
+extern vex::inertial Inertial; //inertial sensor
 
 extern vex::smartdrive Drivetrain;

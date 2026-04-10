@@ -18,7 +18,7 @@ motor leftTop = motor(PORT6, gearSetting::ratio18_1, false);
 motor_group RightDrive = motor_group(rightFront, rightRear, rightTop); 
 motor_group LeftDrive = motor_group(leftFront, leftRear, leftTop); 
 
-inertial Inertial = inertial(PORT5);
+inertial Inertial = inertial(PORT5); //inertial sensor
 
 smartdrive Drivetrain = smartdrive(RightDrive, LeftDrive, Inertial, 3.25, 3.25, 14.5, vex::distanceUnits::in, (0.75)); 
 // left, right, diameter of wheel, diameter of wheel, distance between wheels, distance units, gear ratio
