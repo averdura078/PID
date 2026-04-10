@@ -4,28 +4,28 @@
 
 using namespace vex;
 
-//drive constants (tune them here)
-double dP = 0.5;
-double dI = 0.01;
-double dD = 0.01;
+// drive constants (tune them here)
+double dP = 0.5;  // proportional constant
+double dI = 0.01; // integral constant
+double dD = 0.01; // derivative constant
 
-//turn constants (tune them here)
-double tP = 0.4;
-double tI = 0.1;
-double tD = 0.1;
+// turn constants (tune them here)
+double tP = 0.4; // proportional constant
+double tI = 0.1; // integral constant
+double tD = 0.1; // derivative constant
 
 int loopDelay = 10; // delay between PID loop iterations (in milliseconds)
 
 void driveWithPID(double target)
 {
-    double targetDistance = target;
-    double previousError = 0;
-    double integral = 0;
+    double targetDistance = target; // set the target distance to the target (the number you pass it when using this function)
+    double previousError = 0;       // this is used to save the error from the previous loop iteration so we can calculate the derivative (the change in error) in the current loop iteration.
+    double integral = 0;            // initialize integral (sum of past errors over time) to 0
     while (true)
     {
-        double gearRatio = 2.0; // gear ratio of your drivetrain 
+        double gearRatio = 2.0; // gear ratio of your drivetrain
         // if you have a complex compound drivetrain, you may choose to calculate this experimentally through trial and error:
-        // code your robot to drive a distance (ex. 12 inches), measure how far it goes, and adjust this ratio until it is accurate.
+        // code your robot to drive a distance (ex. 12 inches), manually measure how far it goes, and adjust this ratio until it is accurate.
 
         // calculate the average rotation of the left and right motors (in degrees)
         double leftDegrees = leftTop.position(rotationUnits::deg);
@@ -47,7 +47,8 @@ void driveWithPID(double target)
 
         // I
         integral += error * (loopDelay / 1000.0); // compute integral as the accumulation of error as time passes (in seconds)
-                                                  // clamp integral term to prevent integral windup (when the integral term accumulates too much error and causes the robot to overshoot the target)
+
+        // clamp integral term to prevent integral windup (when the integral term accumulates too much error and causes the robot to overshoot the target)
         if (integral > 200)
             integral = 200;
         if (integral < -200)
@@ -66,6 +67,7 @@ void driveWithPID(double target)
         LeftDrive.spin(forward, motorPower, percentUnits::pct);
         RightDrive.spin(forward, motorPower, percentUnits::pct);
 
+        // stop if the error is less than or equal to 0.1 inches (you may want to adjust this threshold)
         if (fabs(error) <= 0.1)
         { // stop condition
             LeftDrive.stop();
@@ -88,9 +90,9 @@ void driveWithPID(double target)
 
 void turnWithPID(double target)
 {
-    double targetRotation = target;
-    double previousError = 0;
-    double integral = 0;
+    double targetRotation = target; // set the target distance to the target (the number you pass it when using this function)
+    double previousError = 0;       // this is used to save the error from the previous loop iteration so we can calculate the derivative (the change in error) in the current loop iteration.
+    double integral = 0;            // initialize integral (sum of past errors over time) to 0
     while (true)
     {
         double currentRotation = Drivetrain.rotation(vex::rotationUnits::deg); // measure current drivetrain rotation (uses inertial sensor)
@@ -103,7 +105,8 @@ void turnWithPID(double target)
 
         // I
         integral += error * (loopDelay / 1000.0); // compute integral as the accumulation of error as time passes (in seconds)
-                                                  // clamp integral term to prevent integral windup (when the integral term accumulates too much error and causes the robot to overshoot the target)
+
+        // clamp integral term to prevent integral windup (when the integral term accumulates too much error and causes the robot to overshoot the target)
         if (integral > 200)
             integral = 200;
         if (integral < -200)
@@ -123,7 +126,7 @@ void turnWithPID(double target)
         RightDrive.spin(forward, -motorPower, percentUnits::pct);
 
         // prevent oscillation around the target
-        if (fabs(error) <= 0.3) // stop if the error is less than or equal to 0.3 degrees
+        if (fabs(error) <= 0.3) // stop if the error is less than or equal to 0.3 degrees (you may want to adjust this threshold)
         {
             LeftDrive.stop();
             RightDrive.stop();
