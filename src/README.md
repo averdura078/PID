@@ -56,7 +56,34 @@ If you program the robot to spin to 90 degrees, and it is moving too quickly as 
 
 
 How to Implement
-1. 
+1. Create the files you are missing
+    - You are definitely missing PID.h and PID.cpp. Create PID.h under "include" and create PID.cpp under "src"
+    - You might be missing RobotConfig.h and RobotConfig.cpp. Create RobotConfig.h under "include" and create RobotConfig.cpp under "src"
+    - You do not need to add any files with extension .md. These files are for humans only and do not impact the code. You may choose to add README.md and its contents to your project purely for convenience.
+
+2. Copy and paste the content from this project's files into the respective files you just created. Then edit for your robot.
+    - You need to follow the demonstrated structure in RobotConfig.h and RobotConfig.cpp but edit it for your specific motors and ports
+    - You need to change gearRatio and wheelDiameter in PID.cpp to match your robot
+
+3. IMPORTANT: include the header files vex.h, RobotConfig.h, and PID.h at the top of main.cpp and any other files you wish to access the PID system in, and ensure you are using the vex namespace. (copy and paste the following code to your main.cpp)
+
+#include "vex.h"
+#include "RobotConfig.h"
+#include "PID.h"
+
+using namespace vex;
+
+4. Use the turn PID in main.cpp like this: turnWithPID(90). Units in degrees.
+   Use the drivePID in main.cpp like this: driveWithPID(12). Units in inches.
+   **Only test and tune one at once**
+
+5. Tune your constants on PID.cpp following the instructions below ("Step-By-Step Tuning Checklist" and "Tips for Troubleshooting / Perfecting Constants)
+
+
+
+Alternatively, if you are starting from scratch (you don't have your own project):
+1. Make a copy of this project
+2. Edit RobotConfig.h (using instructions on that page), RobotConfig.cpp (using instructions on that page), and PID.cpp (tune constants) for your robot
 
 
 

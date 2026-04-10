@@ -12,6 +12,10 @@ extern double tP; // proportional constant
 extern double tI; // integral constant
 extern double tD; // derivative constant
 
+//drivetrain constants
+extern double gearRatio;
+extern double wheelDiameter; 
+
 extern int loopDelay; // delay between control loop iterations (in milliseconds)
 
 // PID functions

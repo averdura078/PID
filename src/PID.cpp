@@ -14,6 +14,12 @@ double tP = 0.4; // proportional constant
 double tI = 0.1; // integral constant
 double tD = 0.1; // derivative constant
 
+// driveWithPID constants (CHANGE THESE FOR YOUR ROBOT)
+double gearRatio = 2.0; // gear ratio of your drivetrain (used in driveWithPID function)
+// if you have a complex compound drivetrain, you may choose to calculate this experimentally through trial and error:
+// code your robot to drive a distance (ex. 12 inches) using driveWithPID, manually measure how far it goes, and adjust this ratio until it is accurate.
+double wheelDiameter = 3.25; // diameter of your wheels in inches (used in driveWithPID function)
+
 int loopDelay = 10; // delay between PID loop iterations (in milliseconds)
 
 void driveWithPID(double target)
@@ -22,11 +28,7 @@ void driveWithPID(double target)
     double previousError = 0;       // this is used to save the error from the previous loop iteration so we can calculate the derivative (the change in error) in the current loop iteration.
     double integral = 0;            // initialize integral (sum of past errors over time) to 0
     while (true)
-    {
-        double gearRatio = 2.0; // gear ratio of your drivetrain
-        // if you have a complex compound drivetrain, you may choose to calculate this experimentally through trial and error:
-        // code your robot to drive a distance (ex. 12 inches), manually measure how far it goes, and adjust this ratio until it is accurate.
-
+    {        
         // calculate the average rotation of the left and right motors (in degrees)
         double leftDegrees = leftTop.position(rotationUnits::deg);
         double rightDegrees = rightTop.position(rotationUnits::deg);
@@ -36,7 +38,7 @@ void driveWithPID(double target)
         double wheelRotation = currentMotorRotation * gearRatio;
 
         // convert wheel degrees to distance traveled by the robot
-        double currentDistance = (M_PI * 3.25) * wheelRotation / 360.0; // 3.25 is the diameter of the wheel, so this formula calculates the distance traveled by the robot based on how much the wheel has rotated.
+        double currentDistance = (M_PI * wheelDiameter) * wheelRotation / 360.0; // wheelDiameter is the diameter of the wheel, so this formula calculates the distance traveled by the robot based on how much the wheel has rotated.
         // The formula is circumference * (π * diameter) * (rotation in degrees / 360), which gives us the distance traveled in inches.
 
         // P
@@ -63,7 +65,7 @@ void driveWithPID(double target)
         if (motorPower < -90)
             motorPower = -90;
 
-        // make the robot spin
+        // make the robot drive
         LeftDrive.spin(forward, motorPower, percentUnits::pct);
         RightDrive.spin(forward, motorPower, percentUnits::pct);
 
