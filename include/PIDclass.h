@@ -1,3 +1,5 @@
+#include "RobotConfig.h"
+
 enum PIDType
 {
     MOVE,
@@ -5,8 +7,11 @@ enum PIDType
 };
 
 class PID
-{ PID(PIDType type, double p, double i, double d);
+{
     public:
+    //PID object constructor. You can create multiple PID objects with different constants if you want (ex. one for driving straight and one for turning).
+    PID(PIDType type, double p, double i, double d);
+
     // PID functions you can call
     void moveWithPID(double target);
     void turnWithPID(double target);

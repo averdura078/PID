@@ -6,13 +6,13 @@ using namespace vex;
 
 // drive constants (tune them here)
 double dP = 0.5;  // proportional constant
-double dI = 0.01; // integral constant
-double dD = 0.01; // derivative constant
+double dI = 0.0; // integral constant
+double dD = 0.0; // derivative constant
 
 // turn constants (tune them here)
 double tP = 0.4; // proportional constant
-double tI = 0.1; // integral constant
-double tD = 0.1; // derivative constant
+double tI = 0.05; // integral constant
+double tD = 0.001; // derivative constant
 
 // driveWithPID constants (CHANGE THESE FOR YOUR ROBOT)
 double gearRatio = 2.0; // gear ratio of your drivetrain (used in driveWithPID function)
@@ -97,7 +97,7 @@ void turnWithPID(double target)
     double integral = 0;            // initialize integral (sum of past errors over time) to 0
     while (true)
     {
-        double currentRotation = Drivetrain.rotation(vex::rotationUnits::deg); // measure current drivetrain rotation (uses inertial sensor)
+        double currentRotation = Inertial.rotation(vex::rotationUnits::deg); // measure current drivetrain rotation (uses inertial sensor)
 
         // P
         double error = targetRotation - currentRotation; // calculate error as the difference between target rotation and current rotation
@@ -128,12 +128,12 @@ void turnWithPID(double target)
         RightDrive.spin(forward, -motorPower, percentUnits::pct);
 
         // prevent oscillation around the target
-        if (fabs(error) <= 0.3) // stop if the error is less than or equal to 0.3 degrees (you may want to adjust this threshold)
-        {
-            LeftDrive.stop();
-            RightDrive.stop();
-            break; // break out of the while loop if close enough
-        }
+        // if (fabs(error) <= 0.3) // stop if the error is less than or equal to 0.3 degrees (you may want to adjust this threshold)
+        // {
+        //     LeftDrive.stop();
+        //     RightDrive.stop();
+        //     break; // break out of the while loop if close enough
+        // }
 
         previousError = error; // save the current error for the next loop iteration
 
