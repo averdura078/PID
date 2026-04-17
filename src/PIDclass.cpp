@@ -11,6 +11,10 @@ PID::PID(PIDType type, double p, double i, double d) : type(type), p(p), i(i), d
 
 void PID::moveWithPID(double target)
 {
+    //reset the 2 motors we will use to read distance
+    leftTop.resetPosition();
+    rightTop.resetPosition();
+
     double gearRatio = 2.0;      // gear ratio of your drivetrain
     double wheelDiameter = 3.25; // diameter of your wheels in inches
 
@@ -89,7 +93,7 @@ void PID::turnWithPID(double target)
     previousError = 0;
     while (true)
     {
-        double currentRotation = Drivetrain.rotation(vex::rotationUnits::deg); // measure current drivetrain rotation (uses inertial sensor)
+        double currentRotation = Inertial.rotation(vex::rotationUnits::deg); // measure current drivetrain rotation (uses inertial sensor)
 
         // P
         double error = targetRotation - currentRotation; // calculate error as the difference between target rotation and current rotation

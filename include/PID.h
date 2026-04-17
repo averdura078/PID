@@ -1,4 +1,4 @@
-//PID CONSTANTS AND PID FUNCTIONS ARE DECLARED HERE
+// PID CONSTANTS AND PID FUNCTIONS ARE DECLARED HERE
 
 #include "RobotConfig.h"
 
@@ -12,9 +12,9 @@ extern double tP; // proportional constant
 extern double tI; // integral constant
 extern double tD; // derivative constant
 
-//drivetrain constants
+// drivetrain constants
 extern double gearRatio;
-extern double wheelDiameter; 
+extern double wheelDiameter;
 
 extern int loopDelay; // delay between control loop iterations (in milliseconds)
 

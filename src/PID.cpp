@@ -5,17 +5,17 @@
 using namespace vex;
 
 // drive constants (tune them here)
-double dP = 0.5;  // proportional constant
-double dI = 0.0; // integral constant
-double dD = 0.0; // derivative constant
+double dP = 3;    // proportional constant
+double dI = 0.1;  // integral constant
+double dD = 0.01; // derivative constant
 
 // turn constants (tune them here)
-double tP = 0.4; // proportional constant
-double tI = 0.05; // integral constant
+double tP = 0.4;   // proportional constant
+double tI = 0.05;  // integral constant
 double tD = 0.001; // derivative constant
 
 // driveWithPID constants (CHANGE THESE FOR YOUR ROBOT)
-double gearRatio = 2.0; // gear ratio of your drivetrain (used in driveWithPID function)
+double gearRatio = 2.33; // gear ratio of your drivetrain (used in driveWithPID function)
 // if you have a complex compound drivetrain, you may choose to calculate this experimentally through trial and error:
 // code your robot to drive a distance (ex. 12 inches) using driveWithPID, manually measure how far it goes, and adjust this ratio until it is accurate.
 double wheelDiameter = 3.25; // diameter of your wheels in inches (used in driveWithPID function)
@@ -24,11 +24,15 @@ int loopDelay = 10; // delay between PID loop iterations (in milliseconds)
 
 void driveWithPID(double target)
 {
+    // reset the 2 motors we will use to read distance
+    leftTop.resetPosition();
+    rightTop.resetPosition();
+
     double targetDistance = target; // set the target distance to the target (the number you pass it when using this function)
     double previousError = 0;       // this is used to save the error from the previous loop iteration so we can calculate the derivative (the change in error) in the current loop iteration.
     double integral = 0;            // initialize integral (sum of past errors over time) to 0
     while (true)
-    {        
+    {
         // calculate the average rotation of the left and right motors (in degrees)
         double leftDegrees = leftTop.position(rotationUnits::deg);
         double rightDegrees = rightTop.position(rotationUnits::deg);
@@ -128,12 +132,12 @@ void turnWithPID(double target)
         RightDrive.spin(forward, -motorPower, percentUnits::pct);
 
         // prevent oscillation around the target
-        // if (fabs(error) <= 0.3) // stop if the error is less than or equal to 0.3 degrees (you may want to adjust this threshold)
-        // {
-        //     LeftDrive.stop();
-        //     RightDrive.stop();
-        //     break; // break out of the while loop if close enough
-        // }
+        if (fabs(error) <= 0.3) // stop if the error is less than or equal to 0.3 degrees (you may want to adjust this threshold)
+        {
+            LeftDrive.stop();
+            RightDrive.stop();
+            break; // break out of the while loop if close enough
+        }
 
         previousError = error; // save the current error for the next loop iteration
 
