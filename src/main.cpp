@@ -14,7 +14,7 @@
 using namespace vex;
 
 PID movePID(MOVE, 3, 0.1, 0.01);
-PID turnPID(TURN, 0.4, 0.05, 0.001);
+PID turnPID(TURN, 0.4, 0.1, 0.001);
 
 int main()
 {
@@ -24,7 +24,7 @@ int main()
         wait(100, msec);
     }
 
-    while (1)
+    if (!killSwitchActivated) // if kill switch not activated, test PID functions
     {
         // using PID class (PIDclass.h and PIDclass.cpp)
         // movePID.moveWithPID(10); // drive forward 10 inches
@@ -32,8 +32,10 @@ int main()
 
         // using PID functions (PID.h and PID.cpp)
         // driveWithPID(10); // drive forward 10 inches
-        // turnWithPID(90);  // turn to 90 degrees
+        // turnWithPID(90); // turn to 90 degrees
+    }
 
-        break; // use break if you want the robot to stop after reaching the target distance. Remove break if you want the robot to keep trying to reach the target distance (in case it gets pushed off course or something).
+    while (1)
+    {
     }
 }

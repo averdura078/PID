@@ -20,3 +20,5 @@ extern vex::motor_group LeftDrive;
 extern vex::inertial Inertial; //inertial sensor
 
 extern vex::smartdrive Drivetrain;
+
+extern bool killSwitchActivated; // flag to track if kill switch was activated

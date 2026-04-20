@@ -55,7 +55,7 @@ If you program the robot to spin to 90 degrees, and it is moving too quickly as 
 
 
 
-How to Implement
+How to Implement (using PID.h and and PID.cpp)
 1. Create the files you are missing
     - You are definitely missing PID.h and PID.cpp. Create PID.h under "include" and create PID.cpp under "src"
     - You might be missing RobotConfig.h and RobotConfig.cpp. Create RobotConfig.h under "include" and create RobotConfig.cpp under "src"
@@ -79,11 +79,13 @@ using namespace vex;
 
 5. Tune your constants on PID.cpp following the instructions below ("Step-By-Step Tuning Checklist" and "Tips for Troubleshooting / Perfecting Constants)
 
-
-
 Alternatively, if you are starting from scratch (you don't have your own project):
-1. Make a copy of this project
-2. Edit RobotConfig.h (using instructions on that page), RobotConfig.cpp (using instructions on that page), and PID.cpp (tune constants) for your robot
+1. Ignore all 5 steps above
+2. Make a copy of this project
+3. Edit RobotConfig.h (using instructions on that page), RobotConfig.cpp (using instructions on that page), and PID.cpp (tune constants) for your robot
+
+How to Implement (using PIDclass.h and and PIDclass.cpp)
+1. 
 
 
 

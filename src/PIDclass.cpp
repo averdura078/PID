@@ -11,12 +11,12 @@ PID::PID(PIDType type, double p, double i, double d) : type(type), p(p), i(i), d
 
 void PID::moveWithPID(double target)
 {
-    //reset the 2 motors we will use to read distance
+    // reset the motors you want to use to read distance (for a drivetrain, pick 2 adjacent motors on opposite sides)
     leftTop.resetPosition();
     rightTop.resetPosition();
 
-    double gearRatio = 2.0;      // gear ratio of your drivetrain
-    double wheelDiameter = 3.25; // diameter of your wheels in inches
+    double gearRatio = 2.0;      // gear ratio of your drivetrain (or intake arm, etc.)
+    double wheelDiameter = 3.25; // diameter of your wheels (or chain, etc.) in inches
 
     integral = 0;
     previousError = 0;
@@ -82,12 +82,21 @@ void PID::moveWithPID(double target)
 
         // allow other tasks to run
         this_thread::sleep_for(loopDelay);
+
+        // kill switch: uncomment the following lines if you want your robot to stop instantly if you press X
+        // if (Controller.ButtonX.pressing())
+        // {
+        //     LeftDrive.stop();
+        //     RightDrive.stop();
+        //     killSwitchActivated = true; // set flag to prevent restarting
+        //     break;
+        // }
     }
 }
 
 void PID::turnWithPID(double target)
 {
-    double targetRotation = target; // set the target distance to the target (the number you pass it when using this function)
+    double targetRotation = target; // set the target rotation to the target (the number you pass it when using this function)
 
     integral = 0;
     previousError = 0;
@@ -141,5 +150,14 @@ void PID::turnWithPID(double target)
 
         // allow other tasks to run
         this_thread::sleep_for(loopDelay);
+
+        // kill switch: uncomment the following lines if you want your robot to stop instantly if you press X
+        // if (Controller.ButtonX.pressing())
+        // {
+        //     LeftDrive.stop();
+        //     RightDrive.stop();
+        //     killSwitchActivated = true; // set flag to prevent restarting
+        //     break;
+        // }
     }
 }

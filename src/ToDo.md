@@ -1,2 +1,1 @@
-- Add instructions for how to implement a kill switch
-- Update instructions for implementation to README file
+- Add instructions on README file for implementing the PID class

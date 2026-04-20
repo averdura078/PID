@@ -5,13 +5,13 @@
 using namespace vex;
 
 // drive constants (tune them here)
-double dP = 3;    // proportional constant
+double dP = 3.0;    // proportional constant
 double dI = 0.1;  // integral constant
 double dD = 0.01; // derivative constant
 
 // turn constants (tune them here)
 double tP = 0.4;   // proportional constant
-double tI = 0.05;  // integral constant
+double tI = 0.1;  // integral constant
 double tD = 0.001; // derivative constant
 
 // driveWithPID constants (CHANGE THESE FOR YOUR ROBOT)
@@ -21,6 +21,8 @@ double gearRatio = 2.33; // gear ratio of your drivetrain (used in driveWithPID 
 double wheelDiameter = 3.25; // diameter of your wheels in inches (used in driveWithPID function)
 
 int loopDelay = 10; // delay between PID loop iterations (in milliseconds)
+
+bool killSwitchActivated = false; // flag to track if kill switch was activated
 
 void driveWithPID(double target)
 {
@@ -91,12 +93,21 @@ void driveWithPID(double target)
 
         // allow other tasks to run
         this_thread::sleep_for(loopDelay);
+
+        //kill switch: uncomment the following lines if you want your robot to stop instantly if you press X
+        // if (Controller.ButtonX.pressing())
+        // {
+        //     LeftDrive.stop();
+        //     RightDrive.stop();
+        //     killSwitchActivated = true; // set flag to prevent restarting
+        //     break;
+        // }
     }
 }
 
 void turnWithPID(double target)
 {
-    double targetRotation = target; // set the target distance to the target (the number you pass it when using this function)
+    double targetRotation = target; // set the target rotation to the target (the number you pass it when using this function)
     double previousError = 0;       // this is used to save the error from the previous loop iteration so we can calculate the derivative (the change in error) in the current loop iteration.
     double integral = 0;            // initialize integral (sum of past errors over time) to 0
     while (true)
@@ -113,10 +124,10 @@ void turnWithPID(double target)
         integral += error * (loopDelay / 1000.0); // compute integral as the accumulation of error as time passes (in seconds)
 
         // clamp integral term to prevent integral windup (when the integral term accumulates too much error and causes the robot to overshoot the target)
-        if (integral > 200)
-            integral = 200;
-        if (integral < -200)
-            integral = -200;
+        if (integral > 300)
+            integral = 300;
+        if (integral < -300)
+            integral = -300;
 
         // calculate motor power using PID control formula
         double motorPower = tP * error + tI * integral + tD * derivative;
@@ -149,5 +160,14 @@ void turnWithPID(double target)
 
         // allow other tasks to run
         this_thread::sleep_for(loopDelay);
+
+        //kill switch: uncomment the following lines if you want your robot to stop instantly if you press X
+        // if (Controller.ButtonX.pressing())
+        // {
+        //     LeftDrive.stop();
+        //     RightDrive.stop();
+        //     killSwitchActivated = true; // set flag to prevent restarting
+        //     break;
+        // }
     }
 }
