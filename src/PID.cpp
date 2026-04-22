@@ -1,5 +1,9 @@
 // PID CONSTANTS AND PID FUNCTIONS ARE DEFINED HERE
 
+// Instructions: 
+// Tune drive and turn constants and adjust gearRatio and wheelDiameter for your robot. 
+// You may also want to adjust the error thresholds in the if statements that determine when to stop the robot (currently set to 0.1 inches for driving and 0.3 degrees for turning).
+
 #include "PID.h"
 
 using namespace vex;
@@ -19,6 +23,7 @@ double gearRatio = 2.33; // gear ratio of your drivetrain (used in driveWithPID 
 // if you have a complex compound drivetrain, you may choose to calculate this experimentally through trial and error:
 // code your robot to drive a distance (ex. 12 inches) using driveWithPID, manually measure how far it goes, and adjust this ratio until it is accurate.
 double wheelDiameter = 3.25; // diameter of your wheels in inches (used in driveWithPID function)
+// use google or measure the diameter by hand
 
 int loopDelay = 10; // delay between PID loop iterations (in milliseconds)
 

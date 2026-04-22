@@ -27,11 +27,11 @@ int main()
     if (!killSwitchActivated) // if kill switch not activated, test PID functions
     {
         // using PID class (PIDclass.h and PIDclass.cpp)
-        // movePID.moveWithPID(10); // drive forward 10 inches
+        // movePID.moveWithPID(12); // drive forward 12 inches
         // turnPID.turnWithPID(90);  // turn to 90 degrees
 
         // using PID functions (PID.h and PID.cpp)
-        // driveWithPID(10); // drive forward 10 inches
+        // driveWithPID(12); // drive forward 12 inches
         // turnWithPID(90); // turn to 90 degrees
     }
 

@@ -1,1 +1,1 @@
-- Add instructions on README file for implementing the PID class
+- Make PID class easier to use with things other than a drivetrain
